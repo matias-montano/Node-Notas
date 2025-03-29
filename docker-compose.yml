@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    ports:
+      - "${PORT}:${PORT}" 
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - SECRET_KEY=${SECRET_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+      - PORT=${PORT}
+  mongo:
+    image: mongo:4.4
+    container_name: to-do-node-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db # Configurar un volumen persistente para MongoDB
+  frontend:
+    build: ./frontend
+    ports:
+      - "${FRONTEND_PORT}:3000" 
+    volumes:
+      - ./frontend:/frontend
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - SECRET_KEY=${SECRET_KEY}
+
+volumes:
+  mongo-data: # Declarar el volumen persistente
