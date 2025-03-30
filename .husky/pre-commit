@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+export HUSKY=0
+
+echo "Starting pre-commit hook..."
 
 echo "Formateando código con Prettier en la carpeta src..."
 npm run format:src
@@ -7,4 +9,4 @@ npm run format:src
 echo "Ejecutando linting en archivos modificados..."
 npx lint-staged
 
-# Opcionalmente puedes agregar más verificaciones
+echo "Pre-commit hook completed!"

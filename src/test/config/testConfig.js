@@ -11,17 +11,17 @@ const connectTestDB = async () => {
     if (mongoose.connection.readyState !== 0) {
       await mongoose.disconnect();
     }
-    
+
     // Use a test-specific database name by appending '-test'
     const dbUrl = `${process.env.DATABASE_URL || 'mongodb://mongo:27017/todo-app'}-test`;
-    
+
     await mongoose.connect(dbUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-      useFindAndModify: false
+      useFindAndModify: false,
     });
-    
+
     console.log('Connected to test database');
     return mongoose.connection;
   } catch (error) {
@@ -36,7 +36,7 @@ const connectTestDB = async () => {
 const clearTestDB = async () => {
   if (mongoose.connection.readyState !== 0) {
     const collections = mongoose.connection.collections;
-    
+
     for (const key in collections) {
       await collections[key].deleteMany({});
     }

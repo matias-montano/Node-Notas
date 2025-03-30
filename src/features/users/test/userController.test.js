@@ -1,5 +1,6 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
+
 import app from '../../../app.js';
 import { createTestUser, createTestAdmin } from '../../../test/helpers/authHelpers.js';
 
@@ -8,11 +9,11 @@ describe('User Controller', () => {
     it('should get all users as admin', async () => {
       // Create a test admin user
       const admin = await createTestAdmin();
-      
+
       // Create some test users
       await createTestUser();
       await createTestUser();
-      
+
       const response = await request(app)
         .get('/api/users')
         .set('Authorization', `Bearer ${admin.token}`)
@@ -26,7 +27,7 @@ describe('User Controller', () => {
     it('should return 403 for non-admin users', async () => {
       // Create a regular user
       const user = await createTestUser();
-      
+
       const response = await request(app)
         .get('/api/users')
         .set('Authorization', `Bearer ${user.token}`)
@@ -40,7 +41,7 @@ describe('User Controller', () => {
     it('should get user by ID as admin', async () => {
       const admin = await createTestAdmin();
       const testUser = await createTestUser();
-      
+
       const response = await request(app)
         .get(`/api/users/${testUser._id}`)
         .set('Authorization', `Bearer ${admin.token}`)
@@ -54,7 +55,7 @@ describe('User Controller', () => {
     it('should return 404 for non-existent user', async () => {
       const admin = await createTestAdmin();
       const nonExistentId = new mongoose.Types.ObjectId();
-      
+
       const response = await request(app)
         .get(`/api/users/${nonExistentId}`)
         .set('Authorization', `Bearer ${admin.token}`)
@@ -67,16 +68,16 @@ describe('User Controller', () => {
   describe('POST /api/users', () => {
     it('should create new user as admin', async () => {
       const admin = await createTestAdmin();
-      
+
       const newUserData = {
         username: 'createdbytest',
         email: 'createdbytest@example.com',
         password: 'newpassword123',
         firstName: 'Created',
         lastName: 'ByTest',
-        role: 'user'
+        role: 'user',
       };
-      
+
       const response = await request(app)
         .post('/api/users')
         .set('Authorization', `Bearer ${admin.token}`)

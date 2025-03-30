@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-import User from '../../users/models/user.js'; 
+
+import User from '../../users/models/user.js';
 
 /**
  * Middleware para proteger rutas - verifica el token JWT
@@ -20,7 +21,7 @@ export const protect = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: 'No autorizado, no se proporcionó token'
+        message: 'No autorizado, no se proporcionó token',
       });
     }
 
@@ -32,7 +33,7 @@ export const protect = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Usuario no encontrado'
+        message: 'Usuario no encontrado',
       });
     }
 
@@ -44,7 +45,7 @@ export const protect = async (req, res, next) => {
     return res.status(401).json({
       success: false,
       message: 'No autorizado, token inválido',
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -58,7 +59,7 @@ export const admin = (req, res, next) => {
   } else {
     res.status(403).json({
       success: false,
-      message: 'No autorizado como administrador'
+      message: 'No autorizado como administrador',
     });
   }
 };

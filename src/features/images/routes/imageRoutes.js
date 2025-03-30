@@ -1,13 +1,13 @@
 import express from 'express';
-import { 
-  uploadImage, 
-  getImage, 
-  deleteImage,
-  updateProfileImage 
-} from '../controllers/imageController.js';
-import { upload } from '../utils/gridFsConfig.js'; 
-import { protect } from '../../auth/middleware/authMiddleware.js';
 
+import {
+  uploadImage,
+  getImage,
+  deleteImage,
+  updateProfileImage,
+} from '../controllers/imageController.js';
+import { upload } from '../utils/gridFsConfig.js';
+import { protect } from '../../auth/middleware/authMiddleware.js';
 
 const router = express.Router();
 

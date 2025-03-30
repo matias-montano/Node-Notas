@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
 import User from '../../features/users/models/user.js';
 
 /**
@@ -14,28 +15,26 @@ export const createTestUser = async (userData = {}) => {
     password: 'password123',
     firstName: 'Test',
     lastName: 'User',
-    role: 'user'
+    role: 'user',
   };
-  
+
   const userToCreate = { ...defaultUser, ...userData };
-  
+
   // Hash the password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(userToCreate.password, salt);
-  
+
   // Create and save the user
   const user = await User.create({
     ...userToCreate,
-    password: hashedPassword
+    password: hashedPassword,
   });
-  
+
   // Generate token
-  const token = jwt.sign(
-    { id: user._id },
-    process.env.JWT_SECRET || 'your_jwt_secret',
-    { expiresIn: '1h' }
-  );
-  
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'your_jwt_secret', {
+    expiresIn: '1h',
+  });
+
   return {
     _id: user._id,
     username: user.username,
@@ -43,7 +42,7 @@ export const createTestUser = async (userData = {}) => {
     firstName: user.firstName,
     lastName: user.lastName,
     role: user.role,
-    token
+    token,
   };
 };
 
@@ -55,6 +54,6 @@ export const createTestAdmin = async () => {
   return createTestUser({
     username: `admin${Date.now()}`,
     email: `admin${Date.now()}@example.com`,
-    role: 'admin'
+    role: 'admin',
   });
 };

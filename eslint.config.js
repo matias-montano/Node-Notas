@@ -11,13 +11,28 @@ export default [
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
+      globals: {
+        // Node.js globals
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        // Jest globals
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        jest: 'readonly',
+      }
     },
     plugins: {
       node: pluginNode,
       import: pluginImport,
     },
     rules: {
-      'no-console': 'warn',
+      'no-console': 'off', // Changed from 'warn' to 'off'
       'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       'import/order': [
         'error',

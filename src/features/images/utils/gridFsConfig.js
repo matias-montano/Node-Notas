@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { GridFsStorage } from 'multer-gridfs-storage';
 import multer from 'multer';
+
 import dbConfig from '../../../config/dbConfig.js';
 
 // Configuración del almacenamiento para multer usando GridFS
@@ -13,14 +14,14 @@ const storage = new GridFsStorage({
     if (!allowedTypes.includes(file.mimetype)) {
       return new Error('Tipo de archivo no soportado. Sube solo imágenes (jpeg, png, gif, webp).');
     }
-    
+
     return {
       filename: `${Date.now()}-${file.originalname}`,
       bucketName: 'uploads',
       metadata: {
         userId: req.user?._id || null,
-        uploadedAt: new Date()
-      }
+        uploadedAt: new Date(),
+      },
     };
   },
 });
@@ -33,11 +34,11 @@ const initGridFS = () => {
   if (!mongoose.connection.readyState) {
     throw new Error('La conexión a MongoDB no está establecida');
   }
-  
+
   gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-    bucketName: 'uploads'
+    bucketName: 'uploads',
   });
-  
+
   return gfs;
 };
 
@@ -50,11 +51,11 @@ const getGridFS = () => {
 };
 
 // Crear middleware de multer con la configuración de GridFS
-const upload = multer({ 
+const upload = multer({
   storage,
   limits: {
     fileSize: 5 * 1024 * 1024, // Límite de 5MB
-  }
+  },
 });
 
 export { upload, getGridFS, initGridFS };

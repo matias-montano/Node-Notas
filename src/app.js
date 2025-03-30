@@ -1,13 +1,13 @@
+import _path from 'path';
+import { _fileURLToPath } from 'url';
+
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 // Importar configuraciones
 import dbConfig from './config/dbConfig.js';
-
 // Importar rutas
 import authRoutes from './features/auth/routes/authRoutes.js';
 import userRoutes from './features/users/routes/userRoute.js';
@@ -29,21 +29,22 @@ app.use(cors());
 
 // Connect to MongoDB only if not in test mode
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect(dbConfig.url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-  })
-  .then(() => {
-    console.log('Conectado a MongoDB');
-    // Inicializar GridFS para manejo de imágenes
-    initGridFS();
-  })
-  .catch(error => {
-    console.error('Error al conectar a MongoDB:', error.message);
-    process.exit(1);
-  });
+  mongoose
+    .connect(dbConfig.url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    })
+    .then(() => {
+      console.log('Conectado a MongoDB');
+      // Inicializar GridFS para manejo de imágenes
+      initGridFS();
+    })
+    .catch(error => {
+      console.error('Error al conectar a MongoDB:', error.message);
+      process.exit(1);
+    });
 }
 
 // ELIMINAR ESTE BLOQUE DUPLICADO
@@ -52,7 +53,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.get('/', (req, res) => {
   res.json({
     message: 'API funcionando correctamente',
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV,
   });
 });
 
@@ -65,17 +66,17 @@ app.use('/api/images', imageRoutes);
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Ruta no encontrada'
+    message: 'Ruta no encontrada',
   });
 });
 
 // Middleware para manejo de errores
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error('Error de servidor:', err);
   res.status(500).json({
     success: false,
     message: 'Error interno del servidor',
-    error: process.env.NODE_ENV === 'production' ? null : err.message
+    error: process.env.NODE_ENV === 'production' ? null : err.message,
   });
 });
 

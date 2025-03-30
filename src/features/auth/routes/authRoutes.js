@@ -1,9 +1,10 @@
 import express from 'express';
+
 import {
   register,
   login,
   getUserProfile,
-  updateUserProfile
+  updateUserProfile,
 } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -14,8 +15,6 @@ router.post('/register', register);
 router.post('/login', login);
 
 // Rutas protegidas
-router.route('/me')
-  .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
+router.route('/me').get(protect, getUserProfile).put(protect, updateUserProfile);
 
 export default router;

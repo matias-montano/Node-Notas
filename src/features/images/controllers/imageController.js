@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 import { getGridFS } from '../utils/gridFsConfig.js';
 import User from '../../users/models/user.js';
 
@@ -10,24 +11,24 @@ import User from '../../users/models/user.js';
 export const uploadImage = async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: 'No se subió ninguna imagen.' 
+        message: 'No se subió ninguna imagen.',
       });
     }
-    
-    res.status(201).json({ 
+
+    res.status(201).json({
       success: true,
-      message: 'Imagen subida con éxito.', 
+      message: 'Imagen subida con éxito.',
       fileId: req.file.id,
-      filename: req.file.filename 
+      filename: req.file.filename,
     });
   } catch (error) {
     console.error('Error en uploadImage:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: 'Error al subir la imagen', 
-      error: error.message 
+      message: 'Error al subir la imagen',
+      error: error.message,
     });
   }
 };
@@ -41,20 +42,20 @@ export const getImage = async (req, res) => {
   try {
     const gfs = getGridFS();
     const file = await gfs.find({ _id: new mongoose.Types.ObjectId(req.params.id) }).toArray();
-    
+
     if (!file || file.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'Imagen no encontrada'
+        message: 'Imagen no encontrada',
       });
     }
-    
+
     // Establecer el tipo de contenido adecuado
     res.set('Content-Type', file[0].contentType);
-    
+
     // Crear un stream para la descarga
     const downloadStream = gfs.openDownloadStream(new mongoose.Types.ObjectId(req.params.id));
-    
+
     // Pipe el stream directamente a la respuesta
     downloadStream.pipe(res);
   } catch (error) {
@@ -62,7 +63,7 @@ export const getImage = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error al obtener la imagen',
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -76,17 +77,17 @@ export const deleteImage = async (req, res) => {
   try {
     const gfs = getGridFS();
     await gfs.delete(new mongoose.Types.ObjectId(req.params.id));
-    
+
     res.status(200).json({
       success: true,
-      message: 'Imagen eliminada con éxito'
+      message: 'Imagen eliminada con éxito',
     });
   } catch (error) {
     console.error('Error en deleteImage:', error);
     res.status(500).json({
       success: false,
       message: 'Error al eliminar la imagen',
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -99,49 +100,49 @@ export const deleteImage = async (req, res) => {
 export const updateProfileImage = async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: 'No se subió ninguna imagen.' 
+        message: 'No se subió ninguna imagen.',
       });
     }
 
     // Obtener usuario desde el middleware de autenticación
     const userId = req.user._id;
-    
+
     // Actualizar la imagen del usuario
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { 
+      {
         profileImage: {
           url: `/api/images/${req.file.id}`, // URL para acceder a la imagen
           publicId: req.file.id.toString(),
-          alt: 'Imagen de perfil'
-        }
+          alt: 'Imagen de perfil',
+        },
       },
       { new: true }
     ).select('-password');
-    
+
     if (!updatedUser) {
       return res.status(404).json({
         success: false,
-        message: 'Usuario no encontrado'
+        message: 'Usuario no encontrado',
       });
     }
-    
+
     res.status(200).json({
       success: true,
       message: 'Imagen de perfil actualizada con éxito',
       data: {
         user: updatedUser,
-        imageId: req.file.id
-      }
+        imageId: req.file.id,
+      },
     });
   } catch (error) {
     console.error('Error en updateProfileImage:', error);
     res.status(500).json({
       success: false,
       message: 'Error al actualizar la imagen de perfil',
-      error: error.message
+      error: error.message,
     });
   }
 };
