@@ -16,12 +16,7 @@ const runSeed = async () => {
 
     // Conectar a la base de datos
     console.log(`Conectando a MongoDB en: ${dbConfig.url}`);
-    await mongoose.connect(dbConfig.url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    });
+    await mongoose.connect(dbConfig.url);
     console.log('Conexión a MongoDB establecida');
 
     // Ejecutar seeds

@@ -1,6 +1,3 @@
-import _path from 'path';
-import { _fileURLToPath } from 'url';
-
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -30,12 +27,7 @@ app.use(cors());
 // Connect to MongoDB only if not in test mode
 if (process.env.NODE_ENV !== 'test') {
   mongoose
-    .connect(dbConfig.url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    })
+    .connect(dbConfig.url)
     .then(() => {
       console.log('Conectado a MongoDB');
       // Inicializar GridFS para manejo de imágenes
@@ -46,8 +38,6 @@ if (process.env.NODE_ENV !== 'test') {
       process.exit(1);
     });
 }
-
-// ELIMINAR ESTE BLOQUE DUPLICADO
 
 // Ruta base
 app.get('/', (req, res) => {

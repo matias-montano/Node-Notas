@@ -15,12 +15,7 @@ const connectTestDB = async () => {
     // Use a test-specific database name by appending '-test'
     const dbUrl = `${process.env.DATABASE_URL || 'mongodb://mongo:27017/todo-app'}-test`;
 
-    await mongoose.connect(dbUrl, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    });
+    await mongoose.connect(dbUrl);
 
     console.log('Connected to test database');
     return mongoose.connection;

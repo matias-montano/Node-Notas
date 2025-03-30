@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 echo "Ejecutando tests rápidos antes de push en contenedor Docker..."
 
 # Ejecutar tests en el contenedor Docker
