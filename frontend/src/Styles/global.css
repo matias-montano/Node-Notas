@@ -1,0 +1,101 @@
+/* ========================= */
+/* Estilos Globales          */
+/* ========================= */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(to left,  #1f283e,#000000); /* Degradado de gris a negro */
+  color: white; /* Cambia el color del texto a blanco para mejor contraste */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* ========================= */
+/* Clases Reutilizables      */
+/* ========================= */
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================= */
+/* Estilos Específicos de Home */
+/* ========================= */
+.Home {
+  text-align: center;
+  padding: 20px;
+  margin-top: 50px;
+  min-height: 100vh; /* Para ocupar toda la pantalla */
+}
+
+.Home-header {
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #283428;
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Home-header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  color: #333; /* Sobrescribe el color heredado */
+}
+
+.Home-header p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #666; /* Sobrescribe el color heredado */
+}
+
+.Home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.Home-buttons button {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: white;
+  background-color: #4caf50; /* Verde atractivo */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Home-buttons button:hover {
+  background-color: #45a049; /* Verde más oscuro */
+}

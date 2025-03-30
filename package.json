@@ -1,14 +1,15 @@
 {
-  "name": "to-do-node",
+  "name": "node-notas",
   "version": "1.0.0",
-  "description": "API RESTful para gestionar tareas pendientes",
+  "description": "API RESTful para gestionar notas en grupos",
   "main": "src/app.js",
-  "type": "module",
+    "type": "module",
   "scripts": {
     "start": "node src/app.js",
     "prepare": "husky install",
-    "test": "jest",
-    "seed": "node src/seeders/seed.js"
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
+    "test:watch": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watch --runInBand",
+    "seed": "node src/seed.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -28,6 +29,8 @@
     "@commitlint/config-conventional": "^19.7.1",
     "chai": "^5.2.0",
     "chai-http": "^5.1.1",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   }
 }
