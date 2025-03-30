@@ -1,4 +1,10 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "Pre-commit checks passed!"
+echo "Formateando código con Prettier en la carpeta src..."
+npm run format:src
+
+echo "Ejecutando linting en archivos modificados..."
+npx lint-staged
+
+# Opcionalmente puedes agregar más verificaciones

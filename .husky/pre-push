@@ -1,10 +1,26 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+echo "Ejecutando tests rápidos antes de push en contenedor Docker..."
+
+# Ejecutar tests en el contenedor Docker
+docker exec node-notas-app-1 npm run test:fast
+
+# Verificar si los tests pasaron
 if [ $? -ne 0 ]; then
-  echo "El formato del código no es correcto. Push cancelado."
+  echo "❌ Los tests fallaron. Corrige los errores antes de hacer push."
   exit 1
 fi
 
-echo "Todas las verificaciones pasaron. Realizando push..."
+# También podemos ejecutar linting
+echo "Ejecutando linting en archivos modificados..."
+docker exec node-notas-app-1 npm run lint -- --fix
+
+# Verificar si el linting pasó
+if [ $? -ne 0 ]; then
+  echo "❌ El linting falló. Corrige los errores antes de hacer push."
+  exit 1
+fi
+
+echo "✅ Todas las verificaciones pasaron. Realizando push..."
 exit 0
